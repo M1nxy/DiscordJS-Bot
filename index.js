@@ -1,3 +1,13 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
+app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`));
+
+//Bot stuff starts here//
+
 // Load up the discord.js library
 const Discord = require("discord.js");
 
@@ -13,30 +23,28 @@ const client = new Discord.Client();
 
 // Here we load the config.json file that contains our token and our prefix values. 
 const config = require("./config.json");
-// config.token contains the bot's token
 // config.prefix contains the message prefix.
-
-//custom status
-const status = require("./status.json");
+// config.status contains the bots status
+// config.Activity contains the bots Activity
 
 client.on("ready", () => {
   // This event will run if the bot starts, and logs in, successfully.
   console.log(`Bot has started, with ${client.users.cache.size} users, in ${client.channels.cache.size} channels of ${client.guilds.cache.size} guilds.`);
   // Example of changing the bot's playing game to something useful. `client.user` is what the
   // docs refer to as the "ClientUser".
-  client.user.setActivity(status.status, { type: 'WATCHING' });
+  client.user.setActivity(config.status, { type: config.Activity});
 });
 
 client.on("guildCreate", guild => {
   // This event triggers when the bot joins a guild.
   console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-  client.user.setActivity(status.status, { type: 'WATCHING' });
+  client.user.setActivity(config.status, { type: config.Activity});
 });
 
 client.on("guildDelete", guild => {
   // this event triggers when the bot is removed from a guild.
   console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-  client.user.setActivity(status.status, { type: 'WATCHING' });
+  client.user.setActivity(config.status, { type: config.Activity});
 });
 
 
@@ -99,4 +107,4 @@ client.on("message", async message => {
   }
 });
 
-client.login(config.token);
+client.login(process.env.TOKEN);

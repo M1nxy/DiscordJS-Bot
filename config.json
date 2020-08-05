@@ -1,4 +1,5 @@
 { 
-  "token"  : "Token Goes Here",
-  "prefix" : "+"
+  "prefix" : "+",
+  "Activity" : "WATCHING",
+  "status" : "MinxterYT on Youtube"
 }
